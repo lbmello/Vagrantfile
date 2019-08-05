@@ -7,7 +7,6 @@ Base Box | VMs de Teste - Ubuntu 14.04
 Base Box | Server VMs - CentOS 7
 Endereçamento - 10.0.0.0/24 - Private Network
 
-=========================================================================================================================================
 Vagrantfile criado para automatizar a operação de VMs em sistemas que demandem instâncias de banco, webserver e testes.
 
 No arquivo são executados três agrupamentos de máquinas. 
