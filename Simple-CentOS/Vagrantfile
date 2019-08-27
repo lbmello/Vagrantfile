@@ -3,21 +3,21 @@
 
 # VERSÃO DAS BOXES USADAS
 os = 'centos/7'
-hostname = 'Simple-CentOS'
+hostname = 'SimpleCentOS'
 
 # PASTA SINCRONIZADA
 syncedFolderConf = false
-syncedFolderOrigin = "D:/8 - Infraestrutura/"
-syncedFolderDestiny = "/home/infra/"
+syncedFolderOrigin = ''
+syncedFolderDestiny = ''
 
 # CONFIG DA VM
 Vagrant.configure("2") do |config|
   config.vm.box = os
-  config.vm.hostname = hostname
-  config.vm.synced_folder syncedFolderOrigin, syncedFolderDestiny, disabled: syncedFolderConf
-  config.vm.provider "virtualbox" do |vb|
-      vb.name = hostname
-      vb.memory = 1024
-      vb.cpus = 2
+  config.vm.hostname = 'SimpleCentOS'
+  config.vm.synced_folder "D:/", "/home/d", owner: "root", group: "root"
+  config.vm.provider 'virtualbox' do |vb|
+    vb.name = 'SimpleCentOS'
+    vb.memory = 1024
+    vb.cpus = 2
   end
 end
