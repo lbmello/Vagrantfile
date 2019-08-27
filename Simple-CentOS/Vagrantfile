@@ -1,0 +1,24 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# VERSÃO DAS BOXES USADAS
+os = 'centos/7'
+hostname = 'SimpleCentOS'
+
+# PASTA SINCRONIZADA
+syncedFolderConf = false
+syncedFolderOrigin = ''
+syncedFolderDestiny = ''
+
+# CONFIG DA VM
+Vagrant.configure("2") do |config|
+  config.vm.box = os
+  config.vm.hostname = 'SimpleCentOS'
+  config.vm.synced_folder "C:/Users/Lucas/Documents/Vagrantfile/Simple-CentOS", "/home/vagrantfile", owner: "root", group: "root"
+  config.vm.synced_folder "C:/Users/Lucas/Documents/Terraform", "/home/terraform", owner: "root", group: "root"
+  config.vm.provider 'virtualbox' do |vb|
+    vb.name = 'SimpleCentOS'
+    vb.memory = 1024
+    vb.cpus = 2
+  end
+end

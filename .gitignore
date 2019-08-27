@@ -53,3 +53,15 @@ DB-Web-TestVMs/.vagrant/machines/webhostname/virtualbox/private_key
 DB-Web-TestVMs/.vagrant/machines/webhostname/virtualbox/synced_folders
 DB-Web-TestVMs/.vagrant/machines/webhostname/virtualbox/vagrant_cwd
 DB-Web-TestVMs/.vagrant/rgloader/loader.rb
+DB-Web-TestVMs/.vagrant/machines/VM-TST-01/virtualbox/vagrant_cwd
+DB-Web-TestVMs/.vagrant/machines/VM-TST-02/virtualbox/vagrant_cwd
+Simple-CentOS/.vagrant/machines/default/virtualbox/action_provision
+Simple-CentOS/.vagrant/machines/default/virtualbox/action_set_name
+Simple-CentOS/.vagrant/machines/default/virtualbox/box_meta
+Simple-CentOS/.vagrant/machines/default/virtualbox/creator_uid
+Simple-CentOS/.vagrant/machines/default/virtualbox/id
+Simple-CentOS/.vagrant/machines/default/virtualbox/index_uuid
+Simple-CentOS/.vagrant/machines/default/virtualbox/private_key
+Simple-CentOS/.vagrant/machines/default/virtualbox/synced_folders
+Simple-CentOS/.vagrant/machines/default/virtualbox/vagrant_cwd
+Simple-CentOS/.vagrant/rgloader/loader.rb
