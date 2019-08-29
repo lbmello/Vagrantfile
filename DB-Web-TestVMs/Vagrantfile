@@ -7,10 +7,10 @@ ubuntu = 'ubuntu/trusty64'
 
 # DECLARAÇÃO DAS VMS DE TESTE - UBUNTU
 hosts = [
-  { :hostname => 'VM-TST-01', :ip => '10.0.0.100', :box => ubuntu, :ram => 256 },
-  { :hostname => 'VM-TST-02', :ip => '10.0.0.101', :box => ubuntu, :ram => 256 },
-  { :hostname => 'VM-TST-03', :ip => '10.0.0.102', :box => ubuntu, :ram => 256 },
-  { :hostname => 'VM-TST-04', :ip => '10.0.0.103', :box => ubuntu, :ram => 256 }
+  { :hostname => 'VM-TST-01', :ip => '10.0.0.100', :ram => 256 },
+  { :hostname => 'VM-TST-02', :ip => '10.0.0.101', :ram => 256 },
+  { :hostname => 'VM-TST-03', :ip => '10.0.0.102', :ram => 256 },
+  { :hostname => 'VM-TST-04', :ip => '10.0.0.103', :ram => 256 }
 ]
 
 # EXECUÇÃO DO PRIMEIRO GRUPO DE MÁQUINAS
@@ -20,50 +20,56 @@ Vagrant.configure("2") do |config|
   hosts.each do |host|
     config.vm.hostname = host[:hostname]
     config.vm.define host[:hostname] do |hostconfig|
-      hostconfig.vm.box = host[:box]
+      hostconfig.vm.box = ubuntu
       hostconfig.vm.network :private_network, ip: host[:ip]
-      memory = host[:ram] ? host[:ram] : ram;
       hostconfig.vm.provider :virtualbox do |vb|
-        vb.linked_clone = true
+        vb.cpus = 1
+        vb.memory = host[:ram] ? host[:ram] : ram;
         vb.name = host[:hostname]
+        vb.linked_clone = true
         vb.customize [
-          "modifyvm", :id,
-          "--cpuexecutioncap", "50"]
+          'modifyvm', :id,
+          '--cpuexecutioncap', '50']
       end
     end
   end
-end
+
 
 # EXECUÇÃO DO SEGUNDO GRUPO DE MÁQUINAS
-Vagrant.configure("2") do |dbconfig|
 
-  # CONFIGURAÇÃO DA VM DO BANCO DE DADOS MYSQL - CentOS
-  dbhostname = 'SRV-DB-01'
-  dbconfig.vm.hostname = dbhostname
-  dbconfig.vm.define dbhostname do |db|
-    db.vm.box = 'centos/7'
-    db.vm.network :private_network, ip: '10.0.0.2'
-    db.vm.network "forwarded_port", guest: 3306, host: 33306
-    db.vm.provider :virtualbox do |vb|
-      vb.linked_clone = false
-      vb.name = dbhostname
+# CONFIGURAÇÃO DA VM DO BANCO DE DADOS MYSQL - CentOS
+  config.vm.define 'db' do |dbconfig|
+    dbhostname = 'SRV-DB-01'
+    dbconfig.vm.hostname = dbhostname
+    dbconfig.vm.define dbhostname do |db|
+      db.vm.box = cent
+      db.vm.network :private_network, ip: '10.0.0.2'
+      db.vm.network 'forwarded_port', guest: 3306, host: 33306
+      db.vm.provider :virtualbox do |vb|
+        vb.cpus = 2
+        vb.memory = 512
+        vb.linked_clone = false
+        vb.name = dbhostname
+      end
     end
   end
-end
 
 # EXECUÇÃO DO TERCEIRO GRUPO DE MÁQUINAS
-Vagrant.configure("2") do |webconfig|
 
   # CONFIGURAÇÃO DA VM WEB GERAL - CentOS
-  webhostname = 'SRV-WEB-01'
-  webconfig.vm.hostname = webhostname
-  webconfig.vm.define webhostname do |web|
-    web.vm.box = 'centos/7'
-    web.vm.network :private_network, ip: '10.0.0.3'
-    web.vm.network "forwarded_port", guest: 80, host: 8080
-    web.vm.provider :virtualbox do |vb|
-      vb.linked_clone = false
-      vb.name = webhostname
+  config.vm.define 'web' do |webconfig|
+    webhostname = 'SRV-WEB-01'
+    webconfig.vm.hostname = webhostname
+    webconfig.vm.define webhostname do |web|
+      web.vm.box = cent
+      web.vm.network :private_network, ip: '10.0.0.3'
+      web.vm.network 'forwarded_port', guest: 80, host: 8080
+      web.vm.provider :virtualbox do |vb|
+        vb.cpus = 2
+        vb.memory = 512
+        vb.linked_clone = false
+        vb.name = webhostname
+      end
     end
   end
 end
