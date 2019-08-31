@@ -1,0 +1,50 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# VERSÃO DAS BOXES USADAS
+cent = 'centos/7'
+ubuntu = 'ubuntu/trusty64'
+
+# DECLARAÇÃO DAS VMS DE TESTE
+hosts = [
+    { :hostname => 'VM-TST-01', :so => ubuntu, :cpu => 1, :ram => 256, :network => 'private_network', :ip => '10.0.0.129'},
+    { :hostname => 'VM-TST-02', :so => ubuntu, :cpu => 1, :ram => 256, :network => 'private_network', :ip => '10.0.0.130'},
+    { :hostname => 'VM-TST-03', :so => ubuntu, :cpu => 1, :ram => 256, :network => 'private_network', :ip => '10.0.0.131'}
+  ]
+
+# DECLARAÇÃO DOS SERVIDORES
+servers = [
+    { :hostname => 'VM-SRV-01', :so => cent, :cpu => 1, :ram => 512, :network1 => 'public_network', :ip1 => '192.168.0.115', :network2 => "private_network", :ip2 => "10.0.0.2"},  
+    { :hostname => 'VM-SRV-02', :so => cent, :cpu => 1, :ram => 512, :network1 => 'public_network', :ip1 => '192.168.0.116', :network2 => "private_network", :ip2 => "10.0.0.3"}  
+  ]
+
+# EXECUÇÃO DAS MÁQUINAS
+Vagrant.configure("2") do |config|
+
+  # EXECUÇÃO DAS VMs DO ARRAY HOSTS
+  hosts.each do |host|
+    config.vm.define host[:hostname] do |hostconfig|
+      hostconfig.vm.box = ubuntu
+      hostconfig.vm.network host[:network], ip: host[:ip]
+      hostconfig.vm.provider :virtualbox do |vb|
+        vb.cpus = host[:cpu]
+        vb.memory = host[:ram]# ? host[:ram] : ram;
+        vb.name = host[:hostname]
+      end
+    end
+  end
+
+  # EXECUÇÃO DAS VMs DO ARRAY SERVERS
+  servers.each do |server|
+    config.vm.define server[:hostname] do |serverconfig|
+      serverconfig.vm.box = ubuntu
+      serverconfig.vm.network server[:network1], ip: server[:ip1]
+      serverconfig.vm.network server[:network2], ip: server[:ip2]
+      serverconfig.vm.provider :virtualbox do |vb|
+        vb.cpus = server[:cpu]
+        vb.memory = server[:ram]# ? host[:ram] : ram;
+        vb.name = server[:hostname]
+      end
+    end
+  end
+end
