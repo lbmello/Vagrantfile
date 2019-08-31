@@ -2,7 +2,7 @@
 # vi: set ft=ruby :
 
 # VERSÃO DAS BOXES USADAS
-os = 'centos/7'
+os = 'lbmello/centos7-cloud'
 hostname = 'SimpleCentOS'
 
 # PASTA SINCRONIZADA
@@ -13,7 +13,7 @@ syncedFolderDestiny = ''
 # CONFIG DA VM
 Vagrant.configure("2") do |config|
   config.vm.box = os
-  config.vm.hostname = 'SimpleCentOS'
+  config.vm.define hostname
   config.vm.synced_folder "C:/Users/Lucas/Documents/Vagrantfile/Simple-CentOS", "/home/vagrantfile", owner: "root", group: "root"
   config.vm.synced_folder "C:/Users/Lucas/Documents/Terraform", "/home/terraform", owner: "root", group: "root"
   config.vm.provider 'virtualbox' do |vb|
